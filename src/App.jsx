@@ -8,6 +8,16 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
 
+
+  useEffect(()=>{
+    async function fetchData(){
+        const response = await fetch('https://himani.pythonanywhere.com/');
+        const data = await response.json()
+        console.log("data fet fcho : ", data);
+    }
+    fetchData()
+  },[])
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -16,8 +26,10 @@ function App() {
   }, []);
 
   const handleLogin = (userData) => {
+    console.log("here");
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
+    
   };
 
   const handleLogout = () => {

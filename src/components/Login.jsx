@@ -14,14 +14,28 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
+    
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/login', formData);
-      if (response.data.success) {
-        onLogin(response.data.user);
-      } else {
-        setError('Login failed');
-      }
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/log-in`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+      },
+        body: JSON.stringify({
+          "id":formData.username,
+          "password":formData.password
+        }),
+      } 
+    )
+    const data = await response.json()
+    console.log("is ",data);
+    
+    if (data["isAuthentic"]){
+       onLogin({"user":formData.username, "id":formData.username, "role":data["role"]});
+    } else{
+      setError('Login failed');
+    }
+    
     } catch (error) {
       setError('Cannot connect to server. Check if backend is running.');
     } finally {
@@ -30,10 +44,10 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
     }}>
@@ -46,7 +60,7 @@ const Login = ({ onLogin }) => {
         maxWidth: '400px'
       }}>
         <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Smart Door Lock System</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
@@ -68,7 +82,7 @@ const Login = ({ onLogin }) => {
               }}
             />
           </div>
-          
+
           <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
               Password:
@@ -89,7 +103,7 @@ const Login = ({ onLogin }) => {
               }}
             />
           </div>
-          
+
           {error && (
             <div style={{
               color: '#e74c3c',
@@ -103,9 +117,9 @@ const Login = ({ onLogin }) => {
               {error}
             </div>
           )}
-          
-          <button 
-            type="submit" 
+
+          <button
+            type="submit"
             disabled={loading}
             style={{
               width: '100%',
@@ -121,7 +135,7 @@ const Login = ({ onLogin }) => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        
+
         <div style={{
           marginTop: '1.5rem',
           padding: '1rem',
