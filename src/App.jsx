@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
-import ManegeUsers from "./components/ManegeUsers"
-
 import './App.css';
 
 function App() {
@@ -68,14 +66,6 @@ function App() {
             } 
           />
           <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/manage-users"
-           element={
-            user && user.role === 'admin'
-            ? <ManegeUsers user={user} onLogout={handleLogout} />
-            : <Navigate to="/login" />
-            }
-            />
-
         </Routes>
       </div>
     </Router>

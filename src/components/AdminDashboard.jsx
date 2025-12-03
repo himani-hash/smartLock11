@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import './dashboard.css';
 import { getApiUrl, API_ENDPOINTS } from '../config';
-
-
 
 const AdminDashboard = ({ user, onLogout }) => {
   const [accessLogs, setAccessLogs] = useState([]);
@@ -160,17 +157,6 @@ const AdminDashboard = ({ user, onLogout }) => {
             </button>
           </div>
         </div>
-           <a 
-  href={getApiUrl(API_ENDPOINTS.DOWNLOAD_LOGS_PDF)}
-  className="unlock-btn"
-  style={{ marginBottom: "1rem" }}
->
-  Download Logs as PDF
-</a>
-
-<NavLink to="/manage-users" className="unlock-btn">
-  Manage Users
-</NavLink>
 
         <div className="logs-table">
           <table>
@@ -220,8 +206,6 @@ const AdminDashboard = ({ user, onLogout }) => {
         </div>
 
       </div>
-   
-
     </div>
   );
 };
